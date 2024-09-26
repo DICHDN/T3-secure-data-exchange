@@ -34,8 +34,9 @@ class Data
 
 void swapGL(Data& a, Data& b) 
 {
-    std::lock_guard<std::mutex> lockA(a.mutex);
-    std::lock_guard<std::mutex> lockB(b.mutex);
+    std::lock(a.mutex, b.mutex);
+    std::lock_guard<std::mutex> lockA(a.mutex, std::adopt_lock);
+    std::lock_guard<std::mutex> lockB(b.mutex, std::adopt_lock);
 
     int tempValue = a.getValue();
     a.setValue(b.getValue());
